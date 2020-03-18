@@ -54,6 +54,7 @@ export default {
           .post("http://localhost:8888/api/private/v1/login", this.ruleForm)
           .then(res => {
             if (res.data.meta.status === 200) {
+              localStorage.setItem("token", res.data.data.token);
               this.$message({
                 message: res.data.meta.msg,
                 type: "success"
@@ -72,7 +73,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .el-row {
   background: #2d434c;
   height: 100%;
