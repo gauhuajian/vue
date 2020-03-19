@@ -46,24 +46,24 @@ export default {
   },
   methods: {
     startLogin() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate(async valid => {
         if (!valid) {
           return this.$message.error("格式错误");
         }
-        axios
-          .post("http://localhost:8888/api/private/v1/login", this.ruleForm)
-          .then(res => {
-            if (res.data.meta.status === 200) {
-              localStorage.setItem("token", res.data.data.token);
-              this.$message({
-                message: res.data.meta.msg,
-                type: "success"
-              });
-            } else if (res.data.meta.status === 400) {
-              return this.$message.error(res.data.meta.msg);
-            }
-            this.$router.push("/home");
+        let res = await axios.post(
+          "http://localhost:8888/api/private/v1/login",
+          this.ruleForm
+        );
+        if (res.data.meta.status === 200) {
+          localStorage.setItem("token", res.data.data.token);
+          this.$message({
+            message: res.data.meta.msg,
+            type: "success"
           });
+        } else if (res.data.meta.status === 400) {
+          return this.$message.error(res.data.meta.msg);
+        }
+        this.$router.push("/home");
       });
     },
     resetForm(formName) {

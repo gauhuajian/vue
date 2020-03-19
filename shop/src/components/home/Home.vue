@@ -48,26 +48,25 @@ export default {
     return {};
   },
   methods: {
-    outLogin() {
-      this.$confirm("退出登录", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.$message({
-            type: "success",
-            message: "成功!"
-          });
-          localStorage.removeItem("token");
-          this.$router.push("/login");
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消"
-          });
+    async outLogin() {
+      try {
+        const p = await this.$confirm("退出登录", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
         });
+        this.$message({
+          type: "success",
+          message: "成功!"
+        });
+        localStorage.removeItem("token");
+        this.$router.push("/login");
+      } catch (err) {
+        this.$message({
+          type: "info",
+          message: "已取消"
+        });
+      }
     }
   }
 };
