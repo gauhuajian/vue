@@ -11,13 +11,13 @@
       </el-input>
     </el-col>
     <el-col :span="12">
-      <el-button>添加用户</el-button>
+      <el-button @click="showdialogaddUserFormVisible">添加用户</el-button>
     </el-col>
   </el-row>
 
-  <el-dialog title="添加用户" label-width="80px" :visible.sync="dialogaddUserFormVisible">
-    <el-form :model="addUserform" :rules="rules">
-      <el-form-item label="用户名" prop='username'>
+  <el-dialog @closed="closedDialog" title="添加用户" label-width="80px" :visible.sync="dialogaddUserFormVisible">
+    <el-form :model="addUserform" ref="addUserform" :rules="rules">
+      <el-form-item label="用户名" prop="username">
         <el-input v-model="addUserform.username"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
@@ -32,7 +32,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="dialogaddUserFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogaddUserFormVisible = false">确 定</el-button>
+      <el-button type="primary" @click="addUser">确 定</el-button>
     </div>
   </el-dialog>
 
@@ -42,14 +42,18 @@
     <el-table-column prop="email" label="邮箱" width="180"> </el-table-column>
     <el-table-column prop="mobile" label="电话"> </el-table-column>
     <el-table-column label="用户操作">
-      <el-switch v-model="stata">
-      </el-switch>
-
+      <template slot-scope="scope">
+        <el-switch @change="stateChange(scope.row)" v-model="scope.row.mg_state">
+        </el-switch>
+      </template>
     </el-table-column>
+
     <el-table-column label="操作">
-      <el-button type="primary" icon="el-icon-edit" plain size='mini'></el-button>
-      <el-button type="danger" icon="el-icon-delete" plain size='mini'></el-button>
-      <el-button type="success" icon="el-icon-check" plain size='mini'>分配角色</el-button>
+      <template slot-scope="scope">
+        <el-button type="primary" icon="el-icon-edit" plain size="mini"></el-button>
+        <el-button type="danger" icon="el-icon-delete" plain size="mini" @click="dleUser(scope.row.id)"></el-button>
+        <el-button type="success" icon="el-icon-check" plain size="mini">分配角色</el-button>
+      </template>
     </el-table-column>
   </el-table>
   <el-pagination background layout="prev, pager, next" :total="total" :page-size="2" :current-page="pagenum"

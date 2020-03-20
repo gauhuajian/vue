@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <el-car v-slot="slotProps">
+      <div>{{slotProps.type}}</div>
+    </el-car>
+  </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+  Vue.component('el-car', {
+    template: `
+    <div>
+      <h3>提示</h3>
+      <slot :type="type"><p>{{type}}</p></slot>
+      <button>取消</button>
+      <button>确定</button>
+    </div>
+    `,
+    data() {
+      return {
+        type: 'asd'
+      }
+    }
+  })
+
+  const vm = new Vue({
+    el: '#app',
+    data: {}
+  })
+
+</script>
+
+</html>
