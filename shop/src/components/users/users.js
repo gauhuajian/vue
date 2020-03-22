@@ -1,5 +1,4 @@
 /* eslint-disable */
-import axios from "axios";
 export default {
   data() {
     return {
@@ -11,6 +10,13 @@ export default {
       addUserform: {
         username: '',
         password: '',
+        email: '',
+        mobile: ''
+      },
+      dialogUPFormVisible: false,
+      UPform: {
+        id: '',
+        username: '',
         email: '',
         mobile: ''
       },
@@ -58,18 +64,15 @@ export default {
   methods: {
     async loadUserData(pagenum, query = "") {
       try {
-        const url = "http://localhost:8888/api/private/v1/users"
+        const url = "users"
         const config = {
           params: {
             query,
             pagenum: pagenum,
             pagesize: 2
-          },
-          headers: {
-            Authorization: localStorage.getItem("token")
           }
         }
-        let res = await axios.get(url, config)
+        let res = await this.$axios.get(url, config)
         this.users = res.data.data.users;
         this.pagenum = res.data.data.pagenum;
         this.total = res.data.data.total;
@@ -87,11 +90,7 @@ export default {
       this.dialogaddUserFormVisible = true
     },
     async addUser() {
-      let res = await axios.post('http://localhost:8888/api/private/v1/users', this.addUserform, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
-      })
+      let res = await this.$axios.post('users', this.addUserformx)
       if (res.data.meta.status === 201) {
         this.dialogaddUserFormVisible = false
         this.$message({
@@ -115,11 +114,7 @@ export default {
           type: 'warning'
         })
 
-        let res = await axios.delete(`http://localhost:8888/api/private/v1/users/${id}`, {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
-        })
+        let res = await this.$axios.delete(`users/${id}`)
         if (res.data.meta.status === 200) {
           this.loadUserData(1)
           this.$message({
@@ -139,16 +134,44 @@ export default {
         id,
         mg_state: mg_state
       } = row;
-      let res = await axios.put(`http://localhost:8888/api/private/v1/users/${id}/state/${mg_state}`, null, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
-      })
+      let res = await this.$axios.put(`users/${id}/state/${mg_state}`)
       if (res.data.meta.status == 200) {
         this.loadUserData(this.pagenum)
         this.$message({
           type: 'success',
           message: '操作成功!',
+        });
+      }
+    },
+    showdialogUPFormVisible(row) {
+      let {
+        username,
+        email,
+        mobile,
+        id
+      } = row
+      this.UPform.username = username
+      this.UPform.email = email
+      this.UPform.mobile = mobile
+      this.UPform.id = id
+      this.dialogUPFormVisible = true
+    },
+    async upUser() {
+      const {
+        id,
+        email,
+        mobile
+      } = this.UPform
+      let res = await this.$axios.put(`users/${id}`, {
+        email,
+        mobile
+      })
+      if (res.data.meta.status == 200) {
+        this.dialogUPFormVisible = false
+        this.loadUserData(this.pagenum)
+        this.$message({
+          type: 'success',
+          message: '编辑成功!',
         });
       }
     }

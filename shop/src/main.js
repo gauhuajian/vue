@@ -6,9 +6,26 @@ import router from '../router/router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/common.css'
+
+/* eslint-disable */
+// 处理axios
+import axios from 'axios'
+
+// 配置地址
+axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/';
+// 配置引用问题
+Vue.prototype.$axios = axios
+//使用拦截器配置 tokan
+axios.interceptors.request.use(function (config) {
+  config.headers.Authorization = localStorage.getItem('token')
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-/* eslint-disable no-new */
 new Vue({
   router,
   el: '#app',

@@ -24,7 +24,6 @@
 </template>
 <script>
 /* eslint-disable */
-import axios from "axios";
 export default {
   data() {
     return {
@@ -50,10 +49,7 @@ export default {
         if (!valid) {
           return this.$message.error("格式错误");
         }
-        let res = await axios.post(
-          "http://localhost:8888/api/private/v1/login",
-          this.ruleForm
-        );
+        let res = await this.$axios.post("login", this.ruleForm);
         if (res.data.meta.status === 200) {
           localStorage.setItem("token", res.data.data.token);
           this.$message({
