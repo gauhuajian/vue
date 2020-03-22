@@ -14,6 +14,7 @@ export default {
         mobile: ''
       },
       dialogUPFormVisible: false,
+
       UPform: {
         id: '',
         username: '',
@@ -55,11 +56,19 @@ export default {
           message: '格式错误',
           trigger: 'blur'
         }]
-      }
+      },
+      dialogAssignRoleFormVisible: false,
+      Roleform: {
+        username: '',
+        id: '',
+        rid: ''
+      },
+      roledata: {}
     };
   },
   created() {
     this.loadUserData(1);
+    this.loadRoel()
   },
   methods: {
     async loadUserData(pagenum, query = "") {
@@ -173,6 +182,40 @@ export default {
           type: 'success',
           message: '编辑成功!',
         });
+      }
+    },
+    async loadRoel() {
+      let res = await this.$axios.get('roles')
+      this.roledata = res.data.data
+    },
+    async showdialogAssignRoleFormVisible(row) {
+      this.dialogAssignRoleFormVisible = true
+      const {
+        username,
+        id
+      } = row
+      let rid = await this.$axios(`users/${id}`)
+      this.Roleform.username = username
+      this.Roleform.id = id
+      this.Roleform.rid = rid.rid
+
+    },
+    async assignRole() {
+      let {
+        id,
+        rid
+      } = this.Roleform
+
+      let res = await this.$axios.put(`users/${id}/role`, {
+        rid
+      })
+      if (res.data.meta.status == 200) {
+        this.dialogAssignRoleFormVisible = false
+        this.$message({
+          type: 'success',
+          message: '设置成功!',
+        });
+        this.loadUserData(this.pagenum)
       }
     }
   }
