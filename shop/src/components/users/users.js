@@ -67,11 +67,14 @@ export default {
     };
   },
   created() {
-    this.loadUserData(1);
+    // console.log($route);
+    const page = this.$route.params.page
+
+    this.loadUserData(page);
     this.loadRoel()
   },
   methods: {
-    async loadUserData(pagenum, query = "") {
+    async loadUserData(pagenum = 1, query = "") {
       try {
         const url = "users"
         const config = {
@@ -90,6 +93,7 @@ export default {
       }
     },
     clickCurrentpage(num) {
+      this.$router.push("/users/" + num);
       this.loadUserData(num, this.queryText);
     },
     Query() {

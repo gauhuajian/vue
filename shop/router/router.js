@@ -25,7 +25,7 @@ const router = new VueRouter({
       name: 'home',
       component: Home,
       children: [{
-          path: '/users',
+          path: '/users/:page?',
           name: 'users',
           component: Users
         },

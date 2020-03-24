@@ -13,26 +13,35 @@
       <el-aside>
         <el-menu
           :router="true"
-          default-active="2"
+          :default-active="$route.path"
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
         >
-          <el-submenu index="1">
+          <el-submenu
+            v-for="item in Menus"
+            :key="item.id"
+            :index="'' + item.order"
+          >
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{ item.authName }}</span>
             </template>
-            <el-menu-item index="users">用户列表</el-menu-item>
+            <el-menu-item
+              v-for="item1 in item.children"
+              :key="item1.id"
+              :index="'/' + item1.path"
+              >{{ item1.authName }}</el-menu-item
+            >
           </el-submenu>
-          <el-submenu index="2">
+          <!-- <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>权限管理</span>
             </template>
             <el-menu-item index="roles">角色列表</el-menu-item>
             <el-menu-item index="rights">权限列表</el-menu-item>
-          </el-submenu>
+          </el-submenu> -->
         </el-menu>
       </el-aside>
       <el-main>
@@ -45,7 +54,12 @@
 /* eslint-disable */
 export default {
   data() {
-    return {};
+    return {
+      Menus: {}
+    };
+  },
+  created() {
+    this.loadMenusData();
   },
   methods: {
     async outLogin() {
@@ -67,6 +81,10 @@ export default {
           message: "已取消"
         });
       }
+    },
+    async loadMenusData() {
+      let res = await this.$axios.get(`menus`);
+      this.Menus = res.data.data;
     }
   }
 };
