@@ -10,7 +10,12 @@ import './assets/css/common.css'
 /* eslint-disable */
 // 处理axios
 import axios from 'axios'
-
+// 富文本
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+Vue.use(VueQuillEditor)
 // 配置地址
 axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/';
 // 配置引用问题
