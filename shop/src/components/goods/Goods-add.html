@@ -1,0 +1,42 @@
+<div>
+  <el-steps :active="activeIndex" finish-status="success">
+    <el-step title="第一步" description="基本信息"></el-step>
+    <el-step title="第二步" description="商品图片"></el-step>
+    <el-step title="第三步" description="商品内容"></el-step>
+  </el-steps>
+
+  <el-tabs @tab-click="clicktabs" tab-position="left" v-model="activeName">
+    <el-tab-pane label="基本信息" name="one">
+
+      <el-form :model="GoodsAddForm" label-width="100px">
+        <el-form-item label="商品名称" prop="goods_name">
+          <el-input v-model="GoodsAddForm.goods_name"></el-input>
+        </el-form-item>
+        <el-form-item label="商品价格" prop="goods_price">
+          <el-input v-model="GoodsAddForm.goods_price"></el-input>
+        </el-form-item>
+        <el-form-item label="商品重量" prop="goods_weight">
+          <el-input v-model="GoodsAddForm.goods_weight"></el-input>
+        </el-form-item>
+        <el-form-item label="商品分类">
+          <el-cascader :options="options" v-model="GoodsAddForm.pics" :props="defaultProps" clearable></el-cascader>
+        </el-form-item>
+        <el-form-item label="是否促销">
+          <el-radio v-model="GoodsAddForm.radio" label="1">是</el-radio>
+          <el-radio v-model="GoodsAddForm.radio" label="2">否</el-radio>
+        </el-form-item>
+      </el-form>
+
+      <el-button @click="next(2,'two')" type="primary">下一步</el-button>
+    </el-tab-pane>
+
+    <el-tab-pane label="商品图片" name="two">商品图片
+      <el-button @click="next(3,'three')" type="primary">下一步</el-button>
+
+    </el-tab-pane>
+    <el-tab-pane label="商品内容" name="three">商品内容
+      <el-button type="success">确定</el-button>
+
+    </el-tab-pane>
+  </el-tabs>
+</div>

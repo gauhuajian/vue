@@ -7,6 +7,9 @@ import Home from '../src/components/home/Home.vue'
 import Users from '../src/components/users/Users.vue'
 import Roles from '../src/components/roles/Roles.vue'
 import Rights from '../src/components/rights/Rights.vue'
+import Categories from '../src/components/categories/Categories.vue'
+import Goods from '../src/components/goods/Goods.vue'
+import GoodsAdd from '../src/components/goods/Goods-add.vue'
 Vue.use(VueRouter)
 
 /* eslint-disable */
@@ -38,7 +41,23 @@ const router = new VueRouter({
           path: '/rights',
           name: 'rights',
           component: Rights
+        },
+        {
+          path: '/categories',
+          name: 'categories',
+          component: Categories
+        },
+        {
+          path: '/goods',
+          name: 'goods',
+          component: Goods
+        },
+        {
+          path: '/goods-add',
+          name: 'goods-add',
+          component: GoodsAdd
         }
+
       ]
     }
   ]
