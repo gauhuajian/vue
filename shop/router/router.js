@@ -3,13 +3,15 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Login from '../src/components/login/Login.vue'
-import Home from '../src/components/home/Home.vue'
-import Users from '../src/components/users/Users.vue'
-import Roles from '../src/components/roles/Roles.vue'
-import Rights from '../src/components/rights/Rights.vue'
-import Categories from '../src/components/categories/Categories.vue'
-import Goods from '../src/components/goods/Goods.vue'
-import GoodsAdd from '../src/components/goods/Goods-add.vue'
+
+// 路由懒加载
+const Home = () => import('../src/components/home/Home.vue')
+const Users = () => import('../src/components/users/Users.vue')
+const Roles = () => import('../src/components/roles/Roles.vue')
+const Rights = () => import('../src/components/rights/Rights.vue')
+const Categories = () => import('../src/components/categories/Categories.vue')
+const Goods = () => import('../src/components/goods/Goods.vue')
+const GoodsAdd = () => import('../src/components/goods/Goods-add.vue')
 Vue.use(VueRouter)
 
 /* eslint-disable */
